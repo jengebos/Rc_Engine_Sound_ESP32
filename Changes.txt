@@ -1,0 +1,28 @@
+//
+// =======================================================================================================
+// PIN ASSIGNMENTS & GLOBAL VARIABLES (Do not play around here)
+// =======================================================================================================
+//
+// Pin assignment and wiring instructions
+
+#define HEADLIGHT_PIN 22 // White headllights  --Changed for the 30 pin Dev board 1-28-2020
+#define BEACON_LIGHT2_PIN 1 // Blue beacons light   --Changed for the 30 pin Dev board 2-25-2020
+#define CABLIGHT_PIN 19 // Cabin lights    --Changed for the 30 pin Dev board 1-28-2020
+
+
+
+
+//
+// =======================================================================================================
+// READ PWM RC SIGNALS
+// =======================================================================================================
+//
+  pulseWidth[2] = pulseIn(SERVO3_PIN, HIGH, 50000);
+  if (pulseWidth[2] == 0){ 
+    failSafe = true; // 0, if timeout (signal loss)
+    hazard = true;   //ADDED 2-26-2020 to get 4 ways to flash on signal loss
+  }
+  else {
+    failSafe = false;
+      hazard = false;   
+  }

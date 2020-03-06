@@ -64,7 +64,7 @@ const float codeVersion = 3.3; // Software revision.
 
 #define ESC_OUT_PIN 33 // connect crawler type ESC here (working fine, but use it at your own risk!)
 
-#define HEADLIGHT_PIN 0 // White headllights
+#define HEADLIGHT_PIN 22 // White headllights  --Changed for the 30 pin Dev board 1-28-2020
 #define TAILLIGHT_PIN 15 // Red tail- & brake-lights (combined)
 #define INDICATOR_LEFT_PIN 2 // Orange left indicator (turn signal) light
 #define INDICATOR_RIGHT_PIN 4 // Orange right indicator (turn signal) light
@@ -73,9 +73,9 @@ const float codeVersion = 3.3; // Software revision.
 #define ROOFLIGHT_PIN 5 // Roof lights
 #define SIDELIGHT_PIN 18 // Side lights
 
-#define BEACON_LIGHT2_PIN 19 // Blue beacons light
+#define BEACON_LIGHT2_PIN 1 // Blue beacons light   --Changed for the 30 pin Dev board 2-25-2020
 #define BEACON_LIGHT1_PIN 21 // Blue beacons light
-#define CABLIGHT_PIN 22 // Cabin lights
+#define CABLIGHT_PIN 19 // Cabin lights    --Changed for the 30 pin Dev board 1-28-2020
 #define BRAKELIGHT_PIN 32 // Upper brake lights
 
 #define SHAKER_MOTOR_PIN 23 // Shaker motor (shaking truck while idling and engine start / stop)
@@ -866,8 +866,14 @@ void readRcSignals() {
 
   // CH3 Throttle
   pulseWidth[2] = pulseIn(SERVO3_PIN, HIGH, 50000);
-  if (pulseWidth[2] == 0) failSafe = true; // 0, if timeout (signal loss)
-  else failSafe = false;
+  if (pulseWidth[2] == 0){ 
+    failSafe = true; // 0, if timeout (signal loss)
+    hazard = true;   //ADDED 2-26-2020 to get 4 ways to flash on signal loss
+  }
+  else {
+    failSafe = false;
+      hazard = false;   
+  }
 
   // CH4 Additional sound trigger (RC signal with 3 positions)
   if (pwmSoundTrigger) pulseWidth[3] = pulseIn(SERVO4_PIN, HIGH, 50000);
